@@ -1,0 +1,82 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Função para verificar se o usuário está autenticado
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Função para verificar se o usuário é o proprietário do documento
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Função para verificar se o usuário é admin
+    function isAdmin() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+    
+    // Conhecimentos aprovados - qualquer pessoa pode ler
+    match /knowledge/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Contribuições - usuários autenticados podem criar, apenas admins podem ler/modificar
+    match /contributions/{document} {
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // Perfis de usuários - usuários podem ler/atualizar seu próprio perfil
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+    
+    // Favoritos dos usuários - usuários podem gerenciar seus próprios favoritos
+    match /userFavorites/{document} {
+      allow read, write: if isAuthenticated() && 
+        request.auth.uid == resource.data.userId;
+    }
+    
+    // Reports - usuários autenticados podem criar, apenas admins podem ler
+    match /reports/{document} {
+      allow create: if isAuthenticated() && 
+        request.resource.data.reportedBy == request.auth.uid;
+      allow read: if isAdmin();
+      allow update, delete: if isAdmin();
+    }
+    
+    // Notificações - apenas admins podem gerenciar
+    match /notifications/{document} {
+      allow read, write: if isAdmin();
+    }
+    
+    // Configurações do app - apenas admins podem gerenciar
+    match /appSettings/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Analytics - apenas admins podem ler
+    match /analytics/{document} {
+      allow read, write: if isAdmin();
+    }
+    
+    // Logs de atividade - usuários podem ler seus próprios logs, admins podem ler todos
+    match /activityLogs/{document} {
+      allow read: if isAuthenticated() && 
+        (request.auth.uid == resource.data.userId || isAdmin());
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+  }
+} 
