@@ -77,8 +77,9 @@ Um aplicativo iOS leve e divertido que oferece curiosidades aleatórias diariame
 ## 📱 Instalação e Configuração
 
 ### Pré-requisitos
-- Xcode 15.0+
-- iOS 17.0+
+- Xcode 14.0+
+- iOS 16.0+
+- Swift 5.8+
 - Conta Apple Developer (para distribuição)
 - Projeto Firebase configurado
 
