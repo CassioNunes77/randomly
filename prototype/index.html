@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aleatoriamente - Conhecimentos que você não sabia que queria saber</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen active">
+            <div class="login-container">
+                <div class="login-header">
+                    <div class="app-logo">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h1>Aleatoriamente</h1>
+                    <p>Conhecimentos que você não sabia que queria saber</p>
+                </div>
+                
+                <div class="login-options">
+                    <button class="login-btn apple-btn" onclick="login()">
+                        <i class="fab fa-apple"></i>
+                        Continuar com Apple
+                    </button>
+                    
+                    <button class="login-btn google-btn" onclick="login()">
+                        <i class="fab fa-google"></i>
+                        Continuar com Google
+                    </button>
+                    
+                    <button class="login-btn guest-btn" onclick="login()">
+                        Continuar como Visitante
+                    </button>
+                </div>
+                
+                <div class="login-footer">
+                    <p>Ao continuar, você concorda com nossos</p>
+                    <div class="footer-links">
+                        <a href="#">Termos de Uso</a>
+                        <span>e</span>
+                        <a href="#">Política de Privacidade</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App -->
+        <div id="main-app" class="screen">
+            <!-- Navigation Tabs -->
+            <div class="tab-navigation">
+                <button class="tab-btn active" onclick="showTab('discovery')">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Descobrir</span>
+                </button>
+                <button class="tab-btn" onclick="showTab('favorites')">
+                    <i class="fas fa-heart"></i>
+                    <span>Favoritos</span>
+                </button>
+                <button class="tab-btn" onclick="showTab('ranking')">
+                    <i class="fas fa-trophy"></i>
+                    <span>Ranking</span>
+                </button>
+                <button class="tab-btn" onclick="showTab('profile')">
+                    <i class="fas fa-user"></i>
+                    <span>Perfil</span>
+                </button>
+            </div>
+
+            <!-- Discovery Tab -->
+            <div id="discovery-tab" class="tab-content active">
+                <div class="discovery-header">
+                    <h2>Aleatoriamente</h2>
+                    <button class="filter-btn" onclick="showCategoryFilter()">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                </div>
+
+                <div class="knowledge-card">
+                    <div class="card-header">
+                        <div class="category-badge">
+                            <span class="category-emoji">🔬</span>
+                            <span class="category-name">Ciência</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn favorite-btn" onclick="toggleFavorite()">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="action-btn share-btn" onclick="shareKnowledge()">
+                                <i class="fas fa-share"></i>
+                            </button>
+                            <button class="action-btn report-btn" onclick="reportKnowledge()">
+                                <i class="fas fa-flag"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <h3>Os polvos têm três corações</h3>
+                        <p>Os polvos possuem três corações: dois bombeiam sangue para as brânquias, enquanto o terceiro mantém a circulação para o resto do corpo. Quando o polvo nada, o coração principal para de bater, o que explica por que eles preferem rastejar do que nadar.</p>
+                        
+                        <div class="knowledge-stats">
+                            <span class="favorite-count">
+                                <i class="fas fa-heart"></i>
+                                1,247 pessoas favoritaram
+                            </span>
+                            <span class="source">
+                                <i class="fas fa-link"></i>
+                                Fonte: National Geographic
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-actions">
+                    <button class="action-btn large" onclick="nextKnowledge()">
+                        <i class="fas fa-arrow-right"></i>
+                        Próximo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Favorites Tab -->
+            <div id="favorites-tab" class="tab-content">
+                <div class="favorites-header">
+                    <h2>Meus Favoritos</h2>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Buscar favoritos...">
+                    </div>
+                </div>
+
+                <div class="category-filters">
+                    <button class="filter-chip active">Todas</button>
+                    <button class="filter-chip">🔬 Ciência</button>
+                    <button class="filter-chip">📚 História</button>
+                    <button class="filter-chip">🌿 Natureza</button>
+                    <button class="filter-chip">🎭 Cultura</button>
+                </div>
+
+                <div class="favorites-list">
+                    <div class="favorite-item">
+                        <div class="item-header">
+                            <span class="category-emoji">🔬</span>
+                            <span class="category-name">Ciência</span>
+                            <button class="remove-btn">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                        <h4>Os polvos têm três corações</h4>
+                        <p>Os polvos possuem três corações: dois bombeiam sangue para as brânquias...</p>
+                        <div class="item-stats">
+                            <span>1,247 favoritos</span>
+                            <span>Fonte: National Geographic</span>
+                        </div>
+                    </div>
+
+                    <div class="favorite-item">
+                        <div class="item-header">
+                            <span class="category-emoji">📚</span>
+                            <span class="category-name">História</span>
+                            <button class="remove-btn">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                        <h4>O primeiro email foi enviado em 1971</h4>
+                        <p>Ray Tomlinson enviou o primeiro email da história entre dois computadores...</p>
+                        <div class="item-stats">
+                            <span>892 favoritos</span>
+                            <span>Fonte: MIT</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ranking Tab -->
+            <div id="ranking-tab" class="tab-content">
+                <div class="ranking-header">
+                    <h2>Ranking</h2>
+                    <div class="ranking-tabs">
+                        <button class="ranking-tab active" onclick="showRankingTab('facts')">Top Fatos</button>
+                        <button class="ranking-tab" onclick="showRankingTab('users')">Top Usuários</button>
+                    </div>
+                </div>
+
+                <div id="facts-ranking" class="ranking-content active">
+                    <div class="ranking-item">
+                        <div class="rank-badge gold">1</div>
+                        <div class="ranking-content">
+                            <div class="ranking-header">
+                                <span class="category-emoji">🔬</span>
+                                <span class="category-name">Ciência</span>
+                            </div>
+                            <h4>Os polvos têm três corações</h4>
+                            <div class="ranking-stats">
+                                <span>1,247 favoritos</span>
+                                <span>Por: João Silva</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ranking-item">
+                        <div class="rank-badge silver">2</div>
+                        <div class="ranking-content">
+                            <div class="ranking-header">
+                                <span class="category-emoji">📚</span>
+                                <span class="category-name">História</span>
+                            </div>
+                            <h4>O primeiro email foi enviado em 1971</h4>
+                            <div class="ranking-stats">
+                                <span>892 favoritos</span>
+                                <span>Por: Maria Santos</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="users-ranking" class="ranking-content">
+                    <div class="ranking-item">
+                        <div class="rank-badge gold">1</div>
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="ranking-content">
+                            <h4>João Silva</h4>
+                            <div class="user-stats">
+                                <span>15 contribuições</span>
+                                <span>2,450 pontos</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profile-tab" class="tab-content">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>João Silva</h3>
+                    <p>joao@email.com</p>
+                    <p class="member-since">Membro desde Jan 2024</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-heart"></i>
+                        <span class="stat-number">24</span>
+                        <span class="stat-label">Favoritos</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-plus-circle"></i>
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Contribuições</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-star"></i>
+                        <span class="stat-number">1,250</span>
+                        <span class="stat-label">Pontos</span>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h4>Ações Rápidas</h4>
+                    <button class="action-card" onclick="showContribution()">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Contribuir com um Fato</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="action-card">
+                        <i class="fas fa-list"></i>
+                        <span>Ver Minhas Contribuições</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <div class="settings-section">
+                    <h4>Configurações</h4>
+                    <button class="action-card">
+                        <i class="fas fa-cog"></i>
+                        <span>Configurações do App</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="action-card logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sair da Conta</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Filter Modal -->
+        <div id="category-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Filtrar por Categoria</h3>
+                    <button class="close-btn" onclick="closeModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="category-list">
+                        <div class="category-option" onclick="selectCategory('all')">
+                            <span class="category-emoji">🎲</span>
+                            <span>Todas as Categorias</span>
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="category-option" onclick="selectCategory('science')">
+                            <span class="category-emoji">🔬</span>
+                            <span>Ciência</span>
+                        </div>
+                        <div class="category-option" onclick="selectCategory('history')">
+                            <span class="category-emoji">📚</span>
+                            <span>História</span>
+                        </div>
+                        <div class="category-option" onclick="selectCategory('nature')">
+                            <span class="category-emoji">🌿</span>
+                            <span>Natureza</span>
+                        </div>
+                        <div class="category-option" onclick="selectCategory('culture')">
+                            <span class="category-emoji">🎭</span>
+                            <span>Cultura</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contribution Modal -->
+        <div id="contribution-modal" class="modal">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h3>Contribuir com um Fato</h3>
+                    <button class="close-btn" onclick="closeModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="contribution-form">
+                        <div class="form-group">
+                            <label>Título do conhecimento</label>
+                            <input type="text" placeholder="Digite o título...">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Conteúdo</label>
+                            <textarea placeholder="Digite o conhecimento... (mínimo 50 caracteres)"></textarea>
+                            <div class="char-count">
+                                <span>0 caracteres</span>
+                                <span>Mínimo: 50 caracteres</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <select>
+                                <option>🎲 Aleatório</option>
+                                <option>🔬 Ciência</option>
+                                <option>📚 História</option>
+                                <option>🌿 Natureza</option>
+                                <option>🎭 Cultura</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Fonte (Opcional)</label>
+                            <input type="text" placeholder="URL ou nome da fonte">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox">
+                                <span>Conteúdo +18</span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="closeModal()">Cancelar</button>
+                            <button type="submit" class="btn-primary">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
