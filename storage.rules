@@ -1,0 +1,50 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Função para verificar se o usuário está autenticado
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Função para verificar se o usuário é admin
+    function isAdmin() {
+      return isAuthenticated() && 
+        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+    
+    // Imagens de perfil dos usuários
+    match /profile-images/{userId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Imagens de conhecimento (apenas admins podem fazer upload)
+    match /knowledge-images/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Imagens de contribuições (usuários autenticados podem fazer upload)
+    match /contribution-images/{userId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Assets do app (apenas admins podem modificar)
+    match /app-assets/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Logs e backups (apenas admins)
+    match /admin/{allPaths=**} {
+      allow read, write: if isAdmin();
+    }
+    
+    // Regra padrão - negar tudo
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+} 
