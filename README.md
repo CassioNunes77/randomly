@@ -89,23 +89,44 @@ git clone https://github.com/seu-usuario/aleatoriamente.git
 cd aleatoriamente
 ```
 
-### 2. Configurar Firebase
+### 2. Abrir o Projeto no Xcode
+```bash
+open Aleatoriamente.xcodeproj
+```
+
+### 3. Configurar Dependências (Swift Package Manager)
+No Xcode, vá em **File > Add Package Dependencies** e adicione:
+
+#### Firebase iOS SDK
+```
+https://github.com/firebase/firebase-ios-sdk.git
+```
+**Produtos necessários:**
+- FirebaseAuth
+- FirebaseFirestore
+- FirebaseStorage
+- FirebaseMessaging
+
+#### Google Sign-In iOS
+```
+https://github.com/google/GoogleSignIn-iOS.git
+```
+**Produtos necessários:**
+- GoogleSignIn
+- GoogleSignInSwift
+
+### 4. Configurar Firebase
 1. Crie um projeto no [Firebase Console](https://console.firebase.google.com)
 2. Adicione um app iOS
 3. Baixe o arquivo `GoogleService-Info.plist`
-4. Adicione o arquivo ao projeto Xcode
+4. Arraste o arquivo para o projeto Xcode (marque "Copy items if needed")
 
-### 3. Configurar Dependências
-O projeto usa Swift Package Manager. As dependências serão baixadas automaticamente:
-- Firebase iOS SDK
-- Google Sign-In iOS
-
-### 4. Configurar Autenticação
+### 5. Configurar Autenticação
 1. No Firebase Console, vá para Authentication
 2. Habilite Apple Sign-In e Google Sign-In
 3. Configure as URLs de redirecionamento
 
-### 5. Configurar Firestore
+### 6. Configurar Firestore
 1. No Firebase Console, vá para Firestore Database
 2. Crie as seguintes coleções:
    - `knowledge` (conhecimentos aprovados)
@@ -114,7 +135,7 @@ O projeto usa Swift Package Manager. As dependências serão baixadas automatica
    - `userFavorites` (favoritos dos usuários)
    - `reports` (reports de conteúdo)
 
-### 6. Configurar Regras de Segurança
+### 7. Configurar Regras de Segurança
 ```javascript
 // Firestore Security Rules
 rules_version = '2';
@@ -145,10 +166,9 @@ service cloud.firestore {
 }
 ```
 
-### 7. Build e Executar
-1. Abra `Aleatoriamente.xcodeproj` no Xcode
-2. Selecione um simulador ou dispositivo
-3. Pressione `Cmd + R` para executar
+### 8. Build e Executar
+1. Selecione um simulador ou dispositivo
+2. Pressione `Cmd + R` para executar
 
 ## 🎨 Protótipo HTML
 
@@ -170,6 +190,7 @@ Para visualizar o protótipo do app, abra o arquivo `prototype/index.html` em qu
 
 ```
 Aleatoriamente/
+├── Aleatoriamente.xcodeproj/           # Projeto Xcode
 ├── Aleatoriamente/
 │   ├── AleatoriamenteApp.swift          # App principal
 │   ├── Models/
@@ -185,11 +206,17 @@ Aleatoriamente/
 │   │   ├── RankingView.swift            # Tela de ranking
 │   │   ├── ProfileView.swift            # Tela de perfil
 │   │   └── ContributionView.swift       # Tela de contribuição
-│   └── Assets.xcassets/                 # Recursos visuais
+│   ├── Assets.xcassets/                 # Recursos visuais
+│   └── Preview Content/                 # Conteúdo de preview
 ├── prototype/
 │   ├── index.html                       # Protótipo HTML
 │   ├── styles.css                       # Estilos CSS
 │   └── script.js                        # JavaScript
+├── functions/                           # Cloud Functions
+├── firestore.rules                      # Regras do Firestore
+├── firestore.indexes.json               # Índices do Firestore
+├── storage.rules                        # Regras do Storage
+├── firebase.json                        # Configuração Firebase
 └── README.md                            # Este arquivo
 ```
 
